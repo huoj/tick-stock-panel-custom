@@ -1,0 +1,49 @@
+# 平安证券 skill 平台 — ETF 实时快照源 (https://stock.pingan.com/huodong/aiskill/skillPage/)
+# 纯 HTTP REST 源, 无额外依赖 (runtime: none)。
+# 需在 .env 或环境变量配置 PINGAN_SKILL_APIKEY, 未配置时插件灰显不可切换。
+
+name: pingan
+display_name: "平安证券"
+runtime: none
+entry: app.plugins.pingan.provider:PingAnProvider
+check: app.plugins.pingan.provider:availability
+datasets: [etf]
+api_key_env: PINGAN_SKILL_APIKEY   # 声明后设置页提供 Key 输入框(先探后存, secrets.json 优先)
+billing: quota
+billing_note: "平台额度 2000 次/日; 每批最多 5 个代码, 一轮请求数 = ceil(标的数/5), 未配置 ETF 源时不产生调用。"
+description: |
+  ## 提供什么
+  平安证券 skill 平台（券商行情查询技能）的 **ETF 实时快照**。补上 ETF 的当日现价、
+  涨跌、昨收、开高低、成交量额，解决「股票已有当日行情、ETF 停在两天前」的缺口。
+
+  快照同时带回本项目此前没有的 ETF 专属数据，已随 provider record 一并解析
+  （`iopv` / `premium_rate` / `tracking_index` / `fund_size`），供上层按需消费：
+  **IOPV**（份额参考净值）、**折溢价率**、**跟踪指数代码**、**基金规模**，
+  以及 PE(TTM) / PB / 总市值 / 流通市值。
+
+  ## 为什么需要它
+  现有三个数据源在免费档都不提供 ETF 当日数据：TickFlow 免费档明确返回
+  `FREE_TIER_RESTRICTED`；扶摇只覆盖 A 股（ETF 报 Unknown thscode）；通达信量化的
+  ETF 日K返回 0 行。结果是 `kline_etf_daily` 长期落后于股票。
+
+  ## 能力边界（重要）
+  - **只提供 ETF 实时快照，不提供历史日K。** 平台的 K 线接口实测返回**前复权**价且
+    无法切换为不复权（2026-11 实测：600941 近 180 个交易日中 149 天与不复权价背离，
+    最大 -4.71%）。本项目日K入库契约要求不复权原始价，混用会静默算错复权因子与
+    全部指标，因此历史 ETF 日K缺口不由本插件承担。
+  - **换手率不落 ETF enriched 表**：该列依赖 `float_shares` 股本口径，ETF 全量路径
+    不传 instruments，属既有架构事实；快照的换手率仍在 provider record 里可取。
+
+  ## 覆盖范围
+  沪深 A 股与 ETF、指数。**北交所（.BJ）不支持**，会自动跳过。
+install_hint: "点击卡片中的输入框配置 API Key（在平安证券 skill 开放平台获取），或在 .env 中配置 PINGAN_SKILL_APIKEY"
+homepage: "https://stock.pingan.com/huodong/aiskill/skillPage/index.html"
+homepage_label: "平安证券 skill 开放平台"
+key_manage_label: "获取 Key / 查看额度"
+usage_notes:
+  - "**ETF 快照**: 按需拉取持仓/自选中的 ETF，每批最多 **5 个代码**；不做全市场枚举"
+  - "**触发时机**: 每个行情轮询周期只补拉「本轮全市场快照未覆盖」的 ETF，已覆盖的不重复请求"
+  - "**额度**: 平台 2000 次/日；ETF 持仓 3 只时一轮 1 个请求"
+  - "**限流**: 服务端约 0.15s 连打即会间歇返回 429，插件已内置批次间隔与退避重试"
+  - "**不复权**: 平台 K 线接口为前复权口径，本项目不采用（详见 description）"
+  - "**北交所**: .BJ 代码不支持，请求前自动过滤"

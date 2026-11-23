@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "sampled_points": 2660,
+    "vote_recompute_mismatch": 0,
+    "note": "按标的/按时间各切两半, 互相作为发现集与留出集; 留出集不参与任何规则选择"
+  },
+  "by_symbol": {
+    "group_A_symbols": 37,
+    "group_B_symbols": 37,
+    "A_discovery": {
+      "tag": "A(发现集)",
+      "n": 1345,
+      "d5_plus_n": 256,
+      "d5_minus_n": 318,
+      "d5_plus_excess_pp": {
+        "5": -10.9,
+        "10": -4.6,
+        "20": -1.3
+      },
+      "d5_minus_excess_pp": {
+        "5": 11.8,
+        "10": 3.6,
+        "20": 1.8
+      },
+      "strong_orig_n": 160,
+      "strong_flip_n": 141,
+      "strong_orig_excess_pp": {
+        "5": -6.7,
+        "10": -8.0,
+        "20": -3.9
+      },
+      "strong_flip_excess_pp": {
+        "5": 2.1,
+        "10": 1.0,
+        "20": -0.2
+      },
+      "flip_improvement_pp": {
+        "5": 8.8,
+        "10": 9.0,
+        "20": 3.7
+      }
+    },
+    "B_holdout": {
+      "tag": "B(留出集)",
+      "n": 1315,
+      "d5_plus_n": 252,
+      "d5_minus_n": 332,
+      "d5_plus_excess_pp": {
+        "5": -3.9,
+        "10": -7.4,
+        "20": -6.1
+      },
+      "d5_minus_excess_pp": {
+        "5": 11.8,
+        "10": 7.4,
+        "20": 5.6
+      },
+      "strong_orig_n": 133,
+      "strong_flip_n": 117,
+      "strong_orig_excess_pp": {
+        "5": -6.9,
+        "10": -6.6,
+        "20": -1.4
+      },
+      "strong_flip_excess_pp": {
+        "5": 4.6,
+        "10": 2.6,
+        "20": 3.9
+      },
+      "flip_improvement_pp": {
+        "5": 11.5,
+        "10": 9.2,
+        "20": 5.3
+      }
+    }
+  },
+  "by_time": {
+    "mid_date": "2026-01-13",
+    "first_discovery": {
+      "tag": "前半(发现集)",
+      "n": 1294,
+      "d5_plus_n": 239,
+      "d5_minus_n": 379,
+      "d5_plus_excess_pp": {
+        "5": -12.2,
+        "10": -9.3,
+        "20": -7.4
+      },
+      "d5_minus_excess_pp": {
+        "5": 14.6,
+        "10": 8.1,
+        "20": 5.9
+      },
+      "strong_orig_n": 175,
+      "strong_flip_n": 178,
+      "strong_orig_excess_pp": {
+        "5": -15.6,
+        "10": -11.1,
+        "20": -4.6
+      },
+      "strong_flip_excess_pp": {
+        "5": -5.0,
+        "10": -4.0,
+        "20": -3.3
+      },
+      "flip_improvement_pp": {
+        "5": 10.6,
+        "10": 7.1,
+        "20": 1.3
+      }
+    },
+    "second_holdout": {
+      "tag": "后半(留出集)",
+      "n": 1366,
+      "d5_plus_n": 269,
+      "d5_minus_n": 271,
+      "d5_plus_excess_pp": {
+        "5": -2.7,
+        "10": -2.6,
+        "20": 0.3
+      },
+      "d5_minus_excess_pp": {
+        "5": 4.4,
+        "10": -1.4,
+        "20": -4.1
+      },
+      "strong_orig_n": 118,
+      "strong_flip_n": 80,
+      "strong_orig_excess_pp": {
+        "5": 2.0,
+        "10": -5.7,
+        "20": -5.5
+      },
+      "strong_flip_excess_pp": {
+        "5": 11.7,
+        "10": 5.0,
+        "20": -0.6
+      },
+      "flip_improvement_pp": {
+        "5": 9.7,
+        "10": 10.7,
+        "20": 4.9
+      }
+    }
+  },
+  "verdict": {
+    "by_symbol": {
+      "d5_plus_negative_in_both": true,
+      "d5_minus_positive_in_both": true,
+      "flip_improves_in_holdout_5d": true,
+      "flip_improves_in_holdout_10d": true,
+      "all_pass": true
+    },
+    "by_time": {
+      "d5_plus_negative_in_both": true,
+      "d5_minus_positive_in_both": false,
+      "flip_improves_in_holdout_5d": true,
+      "flip_improves_in_holdout_10d": true,
+      "all_pass": false
+    }
+  }
+}
